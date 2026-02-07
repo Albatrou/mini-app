@@ -5,90 +5,372 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CyberCoderBD Promotion</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- Lightweight Pico CSS via CDN (~10kb) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@latest/css/pico.min.css">
+  <!-- Prism.js for syntax highlighting (core + JS language + theme ~4KB) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js"></script>
   <style>
+    :root {
+      --primary: var(--tg-theme-button-color, #3390ec);
+      --secondary: var(--tg-theme-secondary-bg-color, #f0f0f0);
+      --text: var(--tg-theme-text-color, #000);
+      --bg: var(--tg-theme-bg-color, #fff);
+      --gradient: linear-gradient(135deg, var(--primary) 0%, darken(var(--primary), 20%) 100%);
+      --code-bg: #f6f8fa;
+    }
     body {
-      background-color: var(--tg-theme-bg-color);
-      color: var(--tg-theme-text-color);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       margin: 0;
-      padding: 16px;
+      padding: 1rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-image: var(--gradient);
+      background-attachment: fixed;
+    }
+    main {
+      max-width: 800px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+      color: var(--primary);
       text-align: center;
     }
-    h1 {
-      color: var(--tg-theme-section-header-text-color);
-    }
     p {
-      font-size: 16px;
-      line-height: 1.5;
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      margin: 8px 0;
-      font-size: 15px;
-    }
-    button {
-      background-color: var(--tg-theme-button-color);
-      color: var(--tg-theme-button-text-color);
-      border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      margin: 8px;
-      width: 80%;
-      max-width: 300px;
+      line-height: 1.6;
+      text-align: center;
     }
     .bengali {
-      font-size: 14px;
-      color: var(--tg-theme-hint-color);
+      font-size: 0.9rem;
+      color: var(--tg-theme-hint-color, #888);
     }
+    ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 0;
+      list-style: none;
+    }
+    li {
+      background: var(--secondary);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    li:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    button {
+      width: 100%;
+      max-width: 300px;
+      margin: 1rem auto;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background: darken(var(--primary), 10%);
+      transform: scale(1.05);
+    }
+    /* Demo Styles */
+    .demo-section {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: var(--secondary);
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    .demo-section:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    textarea, input {
+      width: 100%;
+      font-family: monospace;
+      font-size: 14px;
+      padding: 1rem;
+      border: 1px solid var(--tg-theme-hint-color);
+      border-radius: 0.5rem;
+      background: var(--code-bg);
+      resize: vertical;
+    }
+    #codePreview, #output, #aiOutput {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--code-bg);
+      border: 1px solid var(--tg-theme-hint-color);
+      border-radius: 0.5rem;
+      text-align: left;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    #codePreview.visible, #output.visible, #aiOutput.visible {
+      opacity: 1;
+    }
+    .loading {
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--primary);
+      animation: confetti-fall 1s linear;
+    }
+    @keyframes confetti-fall {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+    @media (prefers-color-scheme: dark) {
+      --code-bg: #2d2d2d;
+    }
+    @media (max-width: 480px) {
+      main { padding: 1rem; }
+      ul { grid-template-columns: 1fr; }
+      textarea { height: 120px; }
+    }
+    /* Override Prism with Telegram themes */
+    pre[class*="language-"] { background: var(--code-bg) !important; }
+    code[class*="language-"] { color: var(--text); }
   </style>
 </head>
 <body>
-  <h1>Welcome to CyberCoderBD!</h1>
-  <p id="greeting">Hello! Discover the world of technology and innovation.</p>
-  <p class="bengali">প্রযুক্তি ও উদ্ভাবনের মিলনস্থল!</p>
-  
-  <p>Join our channel for the latest in AI tools, programming techniques, digital marketing, and tech news. With 333+ subscribers, we're a growing community for tech enthusiasts in Bangladesh and beyond.</p>
-  
-  <h2>Why Join?</h2>
-  <ul>
-    <li>🛠️ Modern AI Tools: Explore cutting-edge applications.</li>
-    <li>💻 Programming Tips: New strategies and tutorials.</li>
-    <li>📈 Digital Marketing: Proven methods for growth.</li>
-    <li>📰 Latest Tech News: Stay updated on innovations.</li>
-  </ul>
-  
-  <button id="joinButton">Join CyberCoderBD Now</button>
-  <button id="closeButton">Close App</button>
+  <main>
+    <header>
+      <h1>Welcome to CyberCoderBD!</h1>
+      <p id="greeting" aria-live="polite">Hello! Discover the world of technology and innovation.</p>
+      <p class="bengali">প্রযুক্তি ও উদ্ভাবনের মিলনস্থল!</p>
+    </header>
+    
+    <section>
+      <p>Join our vibrant community of 333+ subscribers for cutting-edge insights into AI tools, programming techniques, digital marketing strategies, and the latest tech news—tailored for enthusiasts in Bangladesh and globally.</p>
+    </section>
+    
+    <section>
+      <h2>Why Join Us?</h2>
+      <ul role="list">
+        <li>🛠️ Modern AI Tools: Dive into advanced applications and real-world examples.</li>
+        <li>💻 Programming Tips: Master new techniques with practical tutorials.</li>
+        <li>📈 Digital Marketing: Unlock growth hacks and proven methods.</li>
+        <li>📰 Latest Tech News: Stay ahead with curated updates on innovations.</li>
+      </ul>
+    </section>
+    
+    <!-- Interactive Coding Demo with Syntax Highlighting -->
+    <section class="demo-section">
+      <h2>Try an Engaging Coding Demo</h2>
+      <p>Edit and run JavaScript code with syntax highlighting. Load examples and see visualized output! Join for more techniques.</p>
+      <p class="bengali">সিনট্যাক্স হাইলাইটিং সহ কোডিং ডেমো চেষ্টা করুন।</p>
+      <textarea id="codeInput" rows="8">// Example: Fibonacci
+function fibonacci(n) {
+  let a = 0, b = 1, result = [];
+  for (let i = 0; i < n; i++) {
+    result.push(a);
+    [a, b] = [b, a + b];
+  }
+  return result;
+}
+console.log(fibonacci(10));</textarea>
+      <button id="loadExample">Load Another Example</button>
+      <button id="previewButton">Preview Code</button>
+      <button id="runButton">Run Code</button>
+      <pre id="codePreview" class="language-javascript"><code></code></pre>
+      <div id="output" aria-live="polite">Output will appear here...</div>
+    </section>
+    
+    <!-- AI Tool Demo -->
+    <section class="demo-section">
+      <h2>Explore a Simple AI Tool Demo</h2>
+      <p>Train a basic neural network to learn XOR logic. Adjust inputs, train, and predict! Challenge: Can it reach 90% accuracy? Join for AI tool insights.</p>
+      <p class="bengali">সহজ AI টুল ডেমো: XOR লজিক শিখুন।</p>
+      <label for="input1">Input 1 (0 or 1):</label>
+      <input type="number" id="input1" min="0" max="1" value="0">
+      <label for="input2">Input 2 (0 or 1):</label>
+      <input type="number" id="input2" min="0" max="1" value="1">
+      <button id="trainButton">Train AI</button>
+      <button id="predictButton">Predict</button>
+      <button id="retryButton">Retry</button>
+      <div id="aiOutput" aria-live="polite">AI status: Ready to train...</div>
+    </section>
+    
+    <footer style="text-align: center;">
+      <button id="joinButton" role="button">Join CyberCoderBD Now</button>
+      <button id="closeButton" role="button" secondary>Close App</button>
+    </footer>
+  </main>
 
   <script>
     const webApp = window.Telegram.WebApp;
     webApp.ready();
-    webApp.expand(); // Expand to full height for better UX
+    webApp.expand();
 
-    // Personalize greeting with user data (unsafe for demo; validate server-side in production)
+    // Personalize greeting
     const user = webApp.initDataUnsafe.user;
     if (user) {
       document.getElementById('greeting').innerText = `Hello, ${user.first_name}! Discover the world of technology and innovation.`;
     }
 
-    // Join button: Opens the channel link internally
+    // Join button
     document.getElementById('joinButton').addEventListener('click', () => {
       webApp.openTelegramLink('https://t.me/CyberCoderBD');
     });
 
-    // Close button: Closes the Web App
+    // Close button
     document.getElementById('closeButton').addEventListener('click', () => {
       webApp.close();
     });
 
-    // Handle theme changes dynamically
+    // Coding Demo
+    const codeInput = document.getElementById('codeInput');
+    const codePreview = document.getElementById('codePreview').querySelector('code');
+    const outputDiv = document.getElementById('output');
+    const previewButton = document.getElementById('previewButton');
+    const runButton = document.getElementById('runButton');
+    const loadExample = document.getElementById('loadExample');
+
+    const examples = [
+      `// Fibonacci\nfunction fibonacci(n) {\n  let a = 0, b = 1, result = [];\n  for (let i = 0; i < n; i++) {\n    result.push(a);\n    [a, b] = [b, a + b];\n  }\n  return result;\n}\nconsole.log(fibonacci(10));`,
+      `// Simple Loop\nfor (let i = 0; i < 5; i++) {\n  console.log('Hello ' + i);\n}`
+    ];
+    let exampleIndex = 0;
+
+    loadExample.addEventListener('click', () => {
+      exampleIndex = (exampleIndex + 1) % examples.length;
+      codeInput.value = examples[exampleIndex];
+      highlightCode();
+    });
+
+    function highlightCode() {
+      codePreview.innerHTML = codeInput.value;
+      Prism.highlightElement(codePreview);
+      codePreview.parentElement.classList.add('visible');
+    }
+
+    previewButton.addEventListener('click', highlightCode);
+
+    runButton.addEventListener('click', () => {
+      highlightCode(); // Highlight before run
+      const code = codeInput.value;
+      outputDiv.innerText = 'Running...';
+      outputDiv.classList.add('loading', 'visible');
+      setTimeout(() => { // Simulate async for engagement
+        try {
+          let loggedOutput = '';
+          const originalConsoleLog = console.log;
+          console.log = (msg) => { loggedOutput += (typeof msg === 'object' ? JSON.stringify(msg, null, 2) : msg) + '\n'; };
+          eval(code);
+          console.log = originalConsoleLog;
+          outputDiv.innerText = loggedOutput || 'No output. Try console.log!';
+          outputDiv.innerHTML = outputDiv.innerText.replace(/\[([\s\S]*?)\]/g, '<ul><li>$1</li></ul>'.replace(/,/g, '</li><li>')); // Visualize arrays
+        } catch (error) {
+          outputDiv.innerText = `Error: ${error.message}`;
+        }
+        outputDiv.classList.remove('loading');
+        outputDiv.innerText += '\n\nSuccess! Join CyberCoderBD for more.';
+      }, 500);
+    });
+
+    // AI Demo (Simple Perceptron for XOR)
+    const input1 = document.getElementById('input1');
+    const input2 = document.getElementById('input2');
+    const trainButton = document.getElementById('trainButton');
+    const predictButton = document.getElementById('predictButton');
+    const retryButton = document.getElementById('retryButton');
+    const aiOutput = document.getElementById('aiOutput');
+
+    let weights = [Math.random(), Math.random()];
+    let bias = Math.random();
+    const learningRate = 0.1;
+    const trainingData = [
+      { inputs: [0, 0], target: 0 },
+      { inputs: [0, 1], target: 1 },
+      { inputs: [1, 0], target: 1 },
+      { inputs: [1, 1], target: 0 }
+    ];
+
+    function sigmoid(x) {
+      return 1 / (1 + Math.exp(-x));
+    }
+
+    function predict(inputs) {
+      const sum = inputs[0] * weights[0] + inputs[1] * weights[1] + bias;
+      return sigmoid(sum) > 0.5 ? 1 : 0;
+    }
+
+    function train() {
+      let errors = 0;
+      for (let i = 0; i < 1000; i++) { // Quick training loop
+        trainingData.forEach(data => {
+          const output = predict(data.inputs);
+          const error = data.target - output;
+          weights[0] += learningRate * error * data.inputs[0];
+          weights[1] += learningRate * error * data.inputs[1];
+          bias += learningRate * error;
+        });
+      }
+      trainingData.forEach(data => {
+        if (predict(data.inputs) !== data.target) errors++;
+      });
+      return (1 - errors / trainingData.length) * 100; // Accuracy %
+    }
+
+    trainButton.addEventListener('click', () => {
+      aiOutput.innerText = 'Training AI...';
+      aiOutput.classList.add('loading', 'visible');
+      setTimeout(() => {
+        const accuracy = train();
+        aiOutput.innerText = `Training complete! Accuracy: ${accuracy}%. `;
+        aiOutput.classList.remove('loading');
+        if (accuracy > 90) {
+          aiOutput.innerText += 'Great job! 🎉 Join for advanced AI.';
+          // Confetti animation
+          for (let i = 0; i < 20; i++) {
+            const conf = document.createElement('div');
+            conf.className = 'confetti';
+            conf.style.left = `${Math.random() * 100}%`;
+            conf.style.animationDelay = `${Math.random() * 0.5}s`;
+            document.body.appendChild(conf);
+            setTimeout(() => conf.remove(), 2000);
+          }
+        } else {
+          aiOutput.innerText += 'Try retrying for better results.';
+        }
+      }, 800);
+    });
+
+    predictButton.addEventListener('click', () => {
+      const inputs = [parseFloat(input1.value), parseFloat(input2.value)];
+      const result = predict(inputs);
+      aiOutput.innerText = `Prediction for [${inputs}]: ${result}. Join CyberCoderBD for more AI demos!`;
+      aiOutput.classList.add('visible');
+    });
+
+    retryButton.addEventListener('click', () => {
+      weights = [Math.random(), Math.random()];
+      bias = Math.random();
+      aiOutput.innerText = 'AI reset. Ready to train again.';
+    });
+
+    // Dynamic theme handling
     webApp.onEvent('themeChanged', () => {
-      document.body.style.backgroundColor = webApp.themeParams.bg_color;
+      document.documentElement.style.setProperty('--bg', webApp.themeParams.bg_color);
+      document.documentElement.style.setProperty('--text', webApp.themeParams.text_color);
+      document.documentElement.style.setProperty('--primary', webApp.themeParams.button_color);
     });
   </script>
 </body>
