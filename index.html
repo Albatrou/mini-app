@@ -11,21 +11,28 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.min.css">
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/prism.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js"></script>
+  <!-- Font Awesome for beautiful icons (~15KB CSS) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts for custom fonts (Roboto & Poppins) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: var(--tg-theme-button-color, #3390ec);
-      --secondary: var(--tg-theme-secondary-bg-color, #f0f0f0);
-      --text: var(--tg-theme-text-color, #000);
-      --bg: var(--tg-theme-bg-color, #fff);
-      --gradient: linear-gradient(135deg, var(--primary) 0%, darken(var(--primary), 20%) 100%);
-      --code-bg: #f6f8fa;
+      --primary: #007BFF; /* Vibrant blue for tech trust */
+      --accent: #28A745; /* Green for innovation/success */
+      --neutral-light: #F8F9FA;
+      --neutral-dark: #343A40;
+      --secondary: var(--tg-theme-secondary-bg-color, #e9ecef);
+      --text: var(--tg-theme-text-color, #212529);
+      --bg: var(--tg-theme-bg-color, #ffffff);
+      --gradient: linear-gradient(135deg, var(--primary) 0%, #00BFFF 100%); /* Blue to teal for dynamic energy */
+      --code-bg: #f8f9fa;
     }
     body {
       background: var(--bg);
       color: var(--text);
       margin: 0;
       padding: 1rem;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Roboto', sans-serif; /* Clean body font */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -37,77 +44,107 @@
     main {
       max-width: 800px;
       width: 100%;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 1rem;
-      padding: 2rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.95); /* Slightly more opaque for contrast */
+      border-radius: 1.5rem; /* Softer corners */
+      padding: 2.5rem;
+      box-shadow: 0 8px 30px rgba(0, 123, 255, 0.2); /* Blue-tinted shadow for depth */
     }
     h1, h2 {
+      font-family: 'Poppins', sans-serif; /* Bold, modern headings */
       color: var(--primary);
       text-align: center;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow for elegance */
     }
     p {
-      line-height: 1.6;
+      line-height: 1.7;
       text-align: center;
+      font-size: 1.05rem;
     }
     .bengali {
-      font-size: 0.9rem;
-      color: var(--tg-theme-hint-color, #888);
+      font-size: 0.95rem;
+      color: #6C757D; /* Muted gray for secondary text */
     }
     ul {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
       padding: 0;
       list-style: none;
     }
     li {
-      background: var(--secondary);
-      padding: 1rem;
-      border-radius: 0.5rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: linear-gradient(to bottom, var(--neutral-light), #E2EAF4); /* Soft gradient for cards */
+      padding: 1.2rem;
+      border-radius: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: var(--neutral-dark);
     }
     li:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0, 123, 255, 0.15);
+    }
+    li i {
+      color: var(--accent); /* Green icons for vibrancy */
+      font-size: 1.5rem;
     }
     button {
       width: 100%;
-      max-width: 300px;
+      max-width: 320px;
       margin: 1rem auto;
+      background: var(--primary);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 2rem; /* Pill-shaped for modern feel */
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      color: white;
       transition: background 0.3s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
     button:hover {
-      background: darken(var(--primary), 10%);
+      background: #0056b3; /* Darker blue on hover */
       transform: scale(1.05);
+    }
+    button i {
+      font-size: 1.2rem;
     }
     /* Demo Styles */
     .demo-section {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: var(--secondary);
-      border-radius: 0.5rem;
+      margin-top: 2.5rem;
+      padding: 1.5rem;
+      background: linear-gradient(to right, #E9ECEF, #DEE2E6); /* Subtle gray gradient */
+      border-radius: 1rem;
       transition: all 0.3s ease;
     }
     .demo-section:hover {
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 6px 15px rgba(40, 167, 69, 0.1); /* Green-tinted hover */
     }
     textarea, input {
       width: 100%;
-      font-family: monospace;
+      font-family: 'Courier New', monospace; /* Code font for authenticity */
       font-size: 14px;
       padding: 1rem;
-      border: 1px solid var(--tg-theme-hint-color);
-      border-radius: 0.5rem;
+      border: 1px solid #CED4DA;
+      border-radius: 0.75rem;
       background: var(--code-bg);
       resize: vertical;
+      transition: border-color 0.2s ease;
+    }
+    textarea:focus, input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
     }
     #codePreview, #output, #aiOutput {
       margin-top: 1rem;
-      padding: 1rem;
+      padding: 1.2rem;
       background: var(--code-bg);
-      border: 1px solid var(--tg-theme-hint-color);
-      border-radius: 0.5rem;
+      border: 1px solid #DEE2E6;
+      border-radius: 0.75rem;
       text-align: left;
       white-space: pre-wrap;
       word-wrap: break-word;
@@ -129,7 +166,7 @@
       position: absolute;
       width: 10px;
       height: 10px;
-      background: var(--primary);
+      background: var(--accent);
       animation: confetti-fall 1s linear;
     }
     @keyframes confetti-fall {
@@ -137,14 +174,26 @@
       100% { transform: translateY(100vh); }
     }
     @media (prefers-color-scheme: dark) {
-      --code-bg: #2d2d2d;
+      :root {
+        --code-bg: #2C3E50; /* Darker code bg */
+        --text: #E9ECEF;
+        --bg: #212529;
+        --gradient: linear-gradient(135deg, #0056b3 0%, #00BFFF 100%);
+      }
+      li {
+        background: linear-gradient(to bottom, #343A40, #495057);
+        color: #E9ECEF;
+      }
+      .demo-section {
+        background: linear-gradient(to right, #495057, #6C757D);
+      }
     }
     @media (max-width: 480px) {
-      main { padding: 1rem; }
+      main { padding: 1.5rem; }
       ul { grid-template-columns: 1fr; }
-      textarea { height: 120px; }
+      textarea { height: 140px; }
     }
-    /* Override Prism with Telegram themes */
+    /* Override Prism with custom colors */
     pre[class*="language-"] { background: var(--code-bg) !important; }
     code[class*="language-"] { color: var(--text); }
   </style>
@@ -152,7 +201,7 @@
 <body>
   <main>
     <header>
-      <h1>Welcome to CyberCoderBD!</h1>
+      <h1><i class="fas fa-rocket"></i> Welcome to CyberCoderBD!</h1>
       <p id="greeting" aria-live="polite">Hello! Discover the world of technology and innovation.</p>
       <p class="bengali">প্রযুক্তি ও উদ্ভাবনের মিলনস্থল!</p>
     </header>
@@ -162,18 +211,18 @@
     </section>
     
     <section>
-      <h2>Why Join Us?</h2>
+      <h2><i class="fas fa-star"></i> Why Join Us?</h2>
       <ul role="list">
-        <li>🛠️ Modern AI Tools: Dive into advanced applications and real-world examples.</li>
-        <li>💻 Programming Tips: Master new techniques with practical tutorials.</li>
-        <li>📈 Digital Marketing: Unlock growth hacks and proven methods.</li>
-        <li>📰 Latest Tech News: Stay ahead with curated updates on innovations.</li>
+        <li><i class="fas fa-robot"></i> Modern AI Tools: Dive into advanced applications and real-world examples.</li>
+        <li><i class="fas fa-code"></i> Programming Tips: Master new techniques with practical tutorials.</li>
+        <li><i class="fas fa-chart-line"></i> Digital Marketing: Unlock growth hacks and proven methods.</li>
+        <li><i class="fas fa-newspaper"></i> Latest Tech News: Stay ahead with curated updates on innovations.</li>
       </ul>
     </section>
     
     <!-- Interactive Coding Demo with Syntax Highlighting -->
     <section class="demo-section">
-      <h2>Try an Engaging Coding Demo</h2>
+      <h2><i class="fas fa-laptop-code"></i> Try an Engaging Coding Demo</h2>
       <p>Edit and run JavaScript code with syntax highlighting. Load examples and see visualized output! Join for more techniques.</p>
       <p class="bengali">সিনট্যাক্স হাইলাইটিং সহ কোডিং ডেমো চেষ্টা করুন।</p>
       <textarea id="codeInput" rows="8">// Example: Fibonacci
@@ -186,31 +235,31 @@ function fibonacci(n) {
   return result;
 }
 console.log(fibonacci(10));</textarea>
-      <button id="loadExample">Load Another Example</button>
-      <button id="previewButton">Preview Code</button>
-      <button id="runButton">Run Code</button>
+      <button id="loadExample"><i class="fas fa-sync-alt"></i> Load Another Example</button>
+      <button id="previewButton"><i class="fas fa-eye"></i> Preview Code</button>
+      <button id="runButton"><i class="fas fa-play"></i> Run Code</button>
       <pre id="codePreview" class="language-javascript"><code></code></pre>
       <div id="output" aria-live="polite">Output will appear here...</div>
     </section>
     
     <!-- AI Tool Demo -->
     <section class="demo-section">
-      <h2>Explore a Simple AI Tool Demo</h2>
+      <h2><i class="fas fa-brain"></i> Explore a Simple AI Tool Demo</h2>
       <p>Train a basic neural network to learn XOR logic. Adjust inputs, train, and predict! Challenge: Can it reach 90% accuracy? Join for AI tool insights.</p>
       <p class="bengali">সহজ AI টুল ডেমো: XOR লজিক শিখুন।</p>
       <label for="input1">Input 1 (0 or 1):</label>
       <input type="number" id="input1" min="0" max="1" value="0">
       <label for="input2">Input 2 (0 or 1):</label>
       <input type="number" id="input2" min="0" max="1" value="1">
-      <button id="trainButton">Train AI</button>
-      <button id="predictButton">Predict</button>
-      <button id="retryButton">Retry</button>
+      <button id="trainButton"><i class="fas fa-cogs"></i> Train AI</button>
+      <button id="predictButton"><i class="fas fa-search"></i> Predict</button>
+      <button id="retryButton"><i class="fas fa-redo"></i> Retry</button>
       <div id="aiOutput" aria-live="polite">AI status: Ready to train...</div>
     </section>
     
     <footer style="text-align: center;">
-      <button id="joinButton" role="button">Join CyberCoderBD Now</button>
-      <button id="closeButton" role="button" secondary>Close App</button>
+      <button id="joinButton" role="button"><i class="fas fa-users"></i> Join CyberCoderBD Now</button>
+      <button id="closeButton" role="button" secondary><i class="fas fa-times"></i> Close App</button>
     </footer>
   </main>
 
@@ -370,7 +419,8 @@ console.log(fibonacci(10));</textarea>
     webApp.onEvent('themeChanged', () => {
       document.documentElement.style.setProperty('--bg', webApp.themeParams.bg_color);
       document.documentElement.style.setProperty('--text', webApp.themeParams.text_color);
-      document.documentElement.style.setProperty('--primary', webApp.themeParams.button_color);
+      document.documentElement.style.setProperty('--primary', webApp.themeParams.button_color || '#007BFF');
+      document.documentElement.style.setProperty('--accent', webApp.themeParams.hint_color || '#28A745');
     });
   </script>
 </body>
