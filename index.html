@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberCoderBD Promotion</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      background-color: var(--tg-theme-bg-color);
+      color: var(--tg-theme-text-color);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 16px;
+      text-align: center;
+    }
+    h1 {
+      color: var(--tg-theme-section-header-text-color);
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin: 8px 0;
+      font-size: 15px;
+    }
+    button {
+      background-color: var(--tg-theme-button-color);
+      color: var(--tg-theme-button-text-color);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 8px;
+      width: 80%;
+      max-width: 300px;
+    }
+    .bengali {
+      font-size: 14px;
+      color: var(--tg-theme-hint-color);
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to CyberCoderBD!</h1>
+  <p id="greeting">Hello! Discover the world of technology and innovation.</p>
+  <p class="bengali">প্রযুক্তি ও উদ্ভাবনের মিলনস্থল!</p>
+  
+  <p>Join our channel for the latest in AI tools, programming techniques, digital marketing, and tech news. With 333+ subscribers, we're a growing community for tech enthusiasts in Bangladesh and beyond.</p>
+  
+  <h2>Why Join?</h2>
+  <ul>
+    <li>🛠️ Modern AI Tools: Explore cutting-edge applications.</li>
+    <li>💻 Programming Tips: New strategies and tutorials.</li>
+    <li>📈 Digital Marketing: Proven methods for growth.</li>
+    <li>📰 Latest Tech News: Stay updated on innovations.</li>
+  </ul>
+  
+  <button id="joinButton">Join CyberCoderBD Now</button>
+  <button id="closeButton">Close App</button>
+
+  <script>
+    const webApp = window.Telegram.WebApp;
+    webApp.ready();
+    webApp.expand(); // Expand to full height for better UX
+
+    // Personalize greeting with user data (unsafe for demo; validate server-side in production)
+    const user = webApp.initDataUnsafe.user;
+    if (user) {
+      document.getElementById('greeting').innerText = `Hello, ${user.first_name}! Discover the world of technology and innovation.`;
+    }
+
+    // Join button: Opens the channel link internally
+    document.getElementById('joinButton').addEventListener('click', () => {
+      webApp.openTelegramLink('https://t.me/CyberCoderBD');
+    });
+
+    // Close button: Closes the Web App
+    document.getElementById('closeButton').addEventListener('click', () => {
+      webApp.close();
+    });
+
+    // Handle theme changes dynamically
+    webApp.onEvent('themeChanged', () => {
+      document.body.style.backgroundColor = webApp.themeParams.bg_color;
+    });
+  </script>
+</body>
+</html>
